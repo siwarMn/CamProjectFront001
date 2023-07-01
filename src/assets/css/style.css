@@ -390,6 +390,18 @@ h6 {
   position: relative;
 }
 
+.graph-container {
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  height: 100vh; /* Hauteur de l'écran */
+}
+
+.graph-wrapper {
+  width: 400px; /* Largeur du graphe */
+  height: 300px; /* Hauteur du graphe */
+}
+
 #hero .container {
   padding-top: 80px;
 }
