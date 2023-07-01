@@ -1,5 +1,5 @@
 export class Produit {
-  IdProduit!:number;
+  idProduit!:number;
   libelle!: string;
   code!: string;
   prix!: number;

@@ -12,7 +12,7 @@
     <div class="container">
         <h1>Gestion des produits de camping</h1>
 
-        <form  #f="ngForm">
+        <form  #f="ngForm" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nomProduit">Nom du produit</label>
                 <input type="text" class="form-control" name="libelle" id="libelle" [(ngModel)]="produit.libelle" placeholder="Entrez le libelle du produit" >
@@ -25,10 +25,11 @@
                 <label for="prix">Prix</label>
                 <input type="number" class="form-control" name="prix" id="prix" [(ngModel)]="produit.prix" placeholder="Entrez le prix du produit" ngModel>
             </div>
-            <div class="form-group">
-            <label for="IMAGE">Image</label><br>
-            <input type="file" multiple >
-          </div>
+            <div >
+              <label for="image">Image :</label>
+              <input type="file" accept="image/*" class="form-control" name="image" (change)="onFileSelected($event)" required>
+            <img [src]="imgURL" *ngIf="imgURL">
+            </div>
 
             <button type="submit" class="btn btn-success" (click)="addProduit()">Ajouter</button>
         </form>
@@ -36,24 +37,70 @@
      <table class="table mt-4">
             <thead>
                 <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Libelle</th>
+                    <th scope="col">code</th>
                     <th scope="col">Prix</th>
-                    <th scope="col">Quantité en stock</th>
+                    <th scope="col">image</th>
+                    <th >Actions</th>
                 </tr>
             </thead>
             <tbody>
-               Remplacez les lignes ci-dessous par les données dynamiques de vos produits
-                <tr>
-                    <td>Nom du produit</td>
-                    <td>Description du produit</td>
-                    <td>99.99</td>
-                    <td>10</td>
-                </tr>
+               <tr *ngFor="let produit of produits">
+                <td>{{ produit.libelle }}</td>
+                <td>{{ produit.code }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>
+                  <img [src]="'data:image/jpeg;base64,' + produit.image" alt="Produit Image" height="50">
+                </td>
+                <td>
+                  <button style="padding-right: 10px;" data-toggle="modal" data-target="#modifierProduitModal" (click)="openModifierProduitModal(produit)">Modifier</button>
+                  <button (click)="DeleteProd(produit.idProduit)">Supprimer</button>
+
+
+                </td>
+               </tr>
+
             </tbody>
           </table>
+
+          <div class="modal" [ngClass]="{'show': showModal}" id="modifierProduitModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Contenu de la boîte modale -->
+                <div class="modal-header">
+                  <h5 class="modal-title">Modifier le produit</h5>
+                  <button type="button" class="close" aria-label="Close" (click)="showModal = false">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+             <!-- Champs de modification -->
+             <label for="libelle">Nom</label>
+             <input type="text" class="form-control" name="libelle" [ngModel]="produitSelectionne?.libelle" (ngModelChange)="produitSelectionne.libelle = $event">
+
+             <label for="libelle">Code</label>
+             <input type="text" class="form-control" name="libelle" [ngModel]="produitSelectionne?.code" (ngModelChange)="produitSelectionne.code = $event">
+
+             <label for="libelle">Prix</label>
+             <input type="text" class="form-control" name="libelle" [ngModel]="produitSelectionne?.prix" (ngModelChange)="produitSelectionne.prix = $event">
+
+
+              <label for="image">Image :</label>
+              <input type="file" accept="image/*" class="form-control" name="image" (change)="onFileSelectedd($event)">
+              <img [src]="produitSelectionne?.image" *ngIf="produitSelectionne?.image">
+                  <!-- Autres champs de modification -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="updateProduit()">Enregistrer les modifications</button>
+                  <button type="button" class="btn btn-secondary" (click)="showModal = false">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
