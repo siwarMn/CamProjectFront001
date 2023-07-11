@@ -11,11 +11,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { GraphComponent } from './graph/graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GestionLieuCentreComponent } from './gestion-lieu-centre/gestion-lieu-centre.component';
 @NgModule({
   declarations: [
     AppComponent,
     GestionProduitsComponent,
-    GraphComponent
+    GraphComponent,
+    GestionLieuCentreComponent
   ],
   imports: [
     BrowserModule,

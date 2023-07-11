@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestion des produits de camping</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div *ngIf="showMessage" class="alert alert-success">
+  {{ message }}
+</div>
+<div class="container">
+  <h1>Gestion des espaces</h1>
+  <form  #f="ngForm" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="nomEspace">Nom espace</label>
+      <input type="text" class="form-control" name="nom" id="nom" [(ngModel)]="centre.nom" placeholder="Entrez le nom de l'espace" >
+    </div>
+
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input type="text" class="form-control" name="adresse" id="adresse" [(ngModel)]="centre.adresse" placeholder="Entrez l'adresse de l'espace'" ngModel>
+    </div>
+
+    <div class="form-group">
+      <label for="nature">Nature de l'espace</label>
+      <input type="text" class="form-control" name="nature" id="nature" [(ngModel)]="centre.nature" placeholder="Entrez la nature du centre" ngModel>
+    </div>
+
+    <div >
+      <label for="image">Image :</label>
+      <input type="file" accept="image/*" class="form-control" name="image" (change)="onFileSelected($event)" required>
+      <img [src]="imgURL" *ngIf="imgURL">
+    </div>
+    <button type="submit" class="btn btn-success" (click)="addEspace()">Ajouter</button>
+  </form>
+
+  <table class="table mt-4">
+    <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Adresse</th>
+      <th scope="col">Nature</th>
+      <th scope="col">Image</th>
+      <th >Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let centre of centres">
+      <td>{{ centre.nom }}</td>
+      <td>{{ centre.adresse }}</td>
+      <td>{{ centre.nature }}</td>
+      <td>
+        <img [src]="'data:image/jpeg;base64,' + centre.image" alt="Espace Image" height="50">
+      </td>
+      <td>
+        <button style="padding-right: 10px;" data-toggle="modal" data-target="#modifierEspaceModal" (click)="openModifierEspaceModal(centre)">Modifier</button>
+        <button (click)="DeleteEspace(centre.idEspace)">Supprimer</button>
+
+
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+  <div class="modal" [ngClass]="{'show': showModal}" id="modifierEspaceModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Contenu de la boîte modale -->
+        <div class="modal-header">
+          <h5 class="modal-title">Modifier le produit</h5>
+          <button type="button" class="close" aria-label="Close" (click)="showModal = false">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Champs de modification -->
+          <label for="Nom">Nom</label>
+          <input type="text" class="form-control" name="Nom" [ngModel]="centreSelectionne?.nom" (ngModelChange)="centreSelectionne.nom = $event">
+
+          <label for="adresse">Adresse</label>
+          <input type="text" class="form-control" name="Adresse" [ngModel]="centreSelectionne?.adresse" (ngModelChange)="centreSelectionne.adresse = $event">
+
+          <label for="nature">Nature</label>
+          <input type="text" class="form-control" name="Nature" [ngModel]="centreSelectionne?.nature" (ngModelChange)="centreSelectionne.nature = $event">
+
+
+          <label for="image">Image :</label>
+          <input type="file" accept="image/*" class="form-control" name="image" (change)="onFileSelectedd($event)">
+          <img [src]="centreSelectionne?.image" *ngIf="centreSelectionne?.image">
+          <!-- Autres champs de modification -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="updateEspace()">Enregistrer les modifications</button>
+          <button type="button" class="btn btn-secondary" (click)="showModal = false">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
