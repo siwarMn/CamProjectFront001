@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Produit} from "../Model/Produit";
 import {LieuCentre} from "../Model/LieuCentre";
-import {GestionProduitService} from "../gestion-produit.service";
 import {Router} from "@angular/router";
 import {GestionEspaceService} from "../gestion-espace.service";
 
